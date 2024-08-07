@@ -5,7 +5,7 @@ export type userData = {
     lastName?: string | undefined,
     userName?: string | undefined,
     password?: string | undefined,
-    customer?: 'CompanyAA' | 'CompanyBB'
+    customer?: 'Company AAA' | 'Company BBB'
     role: 'Sales Team' | 'Customer' | 'Admin'
     email?: string | undefined,
     cellPhone?: string | undefined
@@ -18,8 +18,6 @@ export class AddUserModal {
     readonly lastName: Locator
     readonly userName: Locator
     readonly password: Locator
-    readonly companyAAA: Locator
-    readonly companyBBB: Locator
     readonly cancelButton: Locator
     readonly saveButton: Locator
     readonly role: Locator
@@ -33,8 +31,6 @@ export class AddUserModal {
         this.lastName = this.page.locator('xpath=.//input[@name="LastName"]')
         this.userName = this.page.locator('xpath=.//input[@name="UserName"]')
         this.password = this.page.locator('xpath=.//input[@name="Password"]')
-        this.companyAAA = this.page.locator('xpath=.//label[contains(.,"Company AAA")]')
-        this.companyBBB = this.page.locator('xpath=.//label[contains(.,"Company BBB")]')
         this.role = this.page.locator('xpath=.//select[@name="RoleId"]')
         this.email = this.page.locator('xpath=.//input[@name="Email"]')
         this.cellPhone = this.page.locator('xpath=.//input[@name="Mobilephone"]')
@@ -48,13 +44,21 @@ export class AddUserModal {
         }
         await this.firstName.type(user.firstName)
         await this.role.selectOption({label: user.role})
+
+        if(user.customer) {
+            if(user.customer === 'Company AAA' || user.customer === 'Company BBB') {
+                await this.page.locator(`xpath=.//label[contains(.,"${user.customer}")]`).check()
+            } else {
+                throw new Error(`${user.customer} not member of "Company AAA" or "Company BBB"`)
+            }
+        }
+
         if(user.lastName) await this.lastName.pressSequentially(user.lastName)
         if(user.userName) await this.userName.pressSequentially(user.userName)
         if(user.password) await this.password.pressSequentially(user.password)
-//         if(user.customer) await this.customer.pressSequentially(user.customer)
         if(user.email) await this.email.pressSequentially(user.email)
         if(user.cellPhone) await this.cellPhone.pressSequentially(user.cellPhone)
-        // await this.page.pause()
+//         await this.page.pause()
         await this.saveButton.click()
     }
 }

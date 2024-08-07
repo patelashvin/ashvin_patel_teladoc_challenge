@@ -15,8 +15,8 @@ Feature: Webtable Page
     Then I should see "<userName>" on the webtable
 
     Examples:
-      | firstName | lastName | userName | role     | email         | cellPhone    |
-      | John      | Doe      | doeJ     | Customer | jd@gmail.com  | 555-222-3333 |
+      | firstName | lastName | userName | role     | email        | cellPhone    | customer    |
+      | John      | Doe      | doeJ     | Customer | jd@gmail.com | 555-222-3333 | Company AAA |
 
   @Smoke @Delete
   Scenario: Delete a user from the webtable page
